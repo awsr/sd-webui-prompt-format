@@ -209,7 +209,8 @@ class LeFormatter {
 		for (let i = 0; i < this.#cards.length; i++) input = input.replaceAll(this.#cards[i], `@TEXTUAL${i}INVERSION@`);
 
 		// Ignore wildcard file markers ("__name__")
-		input = input.replace(/(?<!\b__[^,]*)_(?![^,]*__\b)/g, " ");
+		const wildcardRegex = /^__.*__$/;
+		input = input.split(",").map(word => wildcardRegex.test(word.trim()) ? word : word.replaceAll("_", " ")).join(",");
 
 		for (let i = 0; i < this.#cards.length; i++) input = input.replaceAll(`@TEXTUAL${i}INVERSION@`, this.#cards[i]);
 
